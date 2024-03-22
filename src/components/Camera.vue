@@ -1,14 +1,16 @@
 <template>
-
-<div class = camera>
-    <video id = "video"></video>
-    <button @click="startUp" id = "startbutton">Take photo</button> 
+<div class="background">
+    <div class = camera>
+        <video id = "video"></video>
+        <button id = "startbutton">Take photo</button> 
+    </div>
+    <p>Last image taken</p>
+    <canvas id="canvas"></canvas>
+    <div class="output">
+        <!-- Einzelnes Bild-Element wird für jedes aufgenommene Bild erstellt -->
+        <img v-for="(photo, index) in takenPhotos" :key="index" :src="photo" :alt="'Photo ' + (index + 1)">
+    </div>
 </div>
-<canvas id="canvas"></canvas>
-  <div class="output">
-    <!-- Einzelnes Bild-Element wird für jedes aufgenommene Bild erstellt -->
-    <img v-for="(photo, index) in takenPhotos" :key="index" :src="photo" :alt="'Photo ' + (index + 1)">
-  </div>
 </template>
 
 <script>
@@ -19,7 +21,7 @@ export default {
 
     data() {
         return {
-            width: 320,
+            width: 400,
             height: 0,
             streaming: false,
             video: null,    
@@ -29,18 +31,12 @@ export default {
             takenPhotos: [],
         }
     },
+    
+    mounted() {
+    this.startUp();
+    },
 
     methods: {
-
-        showViewLiveResultButton(){
-            if(window.self !== window.top){
-               document.querySelector(".contentarea").remove();
-               const button = document.createElement("button");
-               button.textContent = "View Live Result";
-               document.body.appendChild(button);
-            }
-        },
-
     startUp()
     {
         this.video = document.getElementById('video');
@@ -99,7 +95,7 @@ export default {
         const data = this.canvas.toDataURL("image/png");
         // Füge das aufgenommene Bild dem Array hinzu
         this.takenPhotos.push(data);
-        console.log(this.takenPhotos.length);
+        console.log(data);
     } else {
         this.clearphoto();
     }
@@ -111,4 +107,63 @@ export default {
 
 <style>
 
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.background{
+    background-color: #424549;
+}
+
+p{
+    font-size: 30px;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 5px;
+  color: white;
+}
+.camera {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#video {
+  width: 35%;
+  height: auto;
+}
+
+button {
+  margin-top: 20px;
+  width: 10%;
+  scale: 100%;
+  font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 20px;
+  background-color: #812ba3;
+  color: white;
+}
+
+canvas {
+
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.output{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 Spalten */
+    margin-left: 6%;
+    margin-top: 3%;
+    gap: 40px;
+    padding-right: 0;
+}
 </style>

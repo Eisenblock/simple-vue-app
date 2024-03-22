@@ -1,16 +1,20 @@
 <template>
+  <Header />
   <Camera />
+  <Footer />
 </template>
 
 <script>
 import Camera from './components/Camera.vue'
-import Komp from './components/Komp.vue'
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 import { RouterLink, RouterView } from 'vue-router'
 
 export default {
 
   components : {
-    Komp,
+    Header,
+    Footer,
     Camera,
     RouterLink,
     RouterView
