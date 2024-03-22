@@ -4,12 +4,11 @@
     <video id = "video"></video>
     <button @click="startUp" id = "startbutton">Take photo</button> 
 </div>
-<canvas id = "canvas"></canvas>
-<div class = "output">
-    <img id = "photo" alt = "The Screen capture will appear here."/>
-</div>
-  
-
+<canvas id="canvas"></canvas>
+  <div class="output">
+    <!-- Einzelnes Bild-Element wird für jedes aufgenommene Bild erstellt -->
+    <img v-for="(photo, index) in takenPhotos" :key="index" :src="photo" :alt="'Photo ' + (index + 1)">
+  </div>
 </template>
 
 <script>
@@ -26,6 +25,7 @@ export default {
             canvas: null,
             photo: null,
             startbutton: null,
+            takenPhotos: [],
         }
     },
 
@@ -81,14 +81,13 @@ export default {
         );
         clearphoto();
     },
-    clearphoto (){
+    clearphoto(){
         const context = this.canvas.getContext("2d");
         context.fillStyle = "#AAA";
         context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        const data = canvas.toDataURL("image/png");
-        this.photo.setAttribute("src",data);
     },
+
     takePicture(){
     const context = this.canvas.getContext("2d");
     if(this.width && this.height){
@@ -97,9 +96,11 @@ export default {
         context.drawImage(this.video, 0, 0, this.width, this.height);
 
         const data = this.canvas.toDataURL("image/png");
-        this.photo.setAttribute("src",data);
+        // Füge das aufgenommene Bild dem Array hinzu
+        this.takenPhotos.push(data);
+        console.log(this.takenPhotos.length);
     } else {
-        clearphoto();
+        this.clearphoto();
     }
 }
 },
