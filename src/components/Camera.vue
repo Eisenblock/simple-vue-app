@@ -12,6 +12,7 @@
 </template>
 
 <script>
+//test
 export default {
 
     name : 'Camera',
