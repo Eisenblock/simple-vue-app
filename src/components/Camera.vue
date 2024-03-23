@@ -7,8 +7,13 @@
     <p>Last image taken</p>
     <canvas id="canvas"></canvas>
     <div class="output">
+        <div v-for="(photo, index) in takenPhotos" :key="index" :src="photo" :alt="'Photo ' + (index + 1)">
+            
         <!-- Einzelnes Bild-Element wird für jedes aufgenommene Bild erstellt -->
-        <img v-for="(photo, index) in takenPhotos" :key="index" :src="photo" :alt="'Photo ' + (index + 1)">
+        <img :src="photo">
+        <button @click="deletePhoto(index)">X</button>
+    
+        </div>
     </div>
 </div>
 </template>
@@ -29,6 +34,7 @@ export default {
             photo: null,
             startbutton: null,
             takenPhotos: [],
+            deleteButton: [],
         }
     },
     
@@ -76,7 +82,7 @@ export default {
             },
             false,
         );
-        clearphoto();
+        this.clearphoto();
     },
     clearphoto(){
         const context = this.canvas.getContext("2d");
@@ -93,16 +99,20 @@ export default {
         context.drawImage(this.video, 0, 0, this.width, this.height);
 
         const data = this.canvas.toDataURL("image/png");
-        // Füge das aufgenommene Bild dem Array hinzu
+
         this.takenPhotos.push(data);
-        console.log(data);
+        
+
     } else {
         this.clearphoto();
-    }
-}
-},
+    }},
+
+    deletePhoto(index){
+    this.takenPhotos.splice(index, 1);
 }
 
+}
+}
 </script>
 
 <style>
