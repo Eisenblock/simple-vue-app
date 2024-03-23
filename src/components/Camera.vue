@@ -104,30 +104,29 @@
             this.takenPhotos.push(data);
 
             this.canvas.toBlob(blob => {
-        // Neues FormData-Objekt erstellen
-        const formData = new FormData();
-        formData.append('photo', blob, 'photo.png'); // 'photo' ist der Name des Formularfelds für das Bild
+                // Neues FormData-Objekt erstellen
+                const formData = new FormData();
+                formData.append('photo', blob, 'photo.png'); // 'photo' ist der Name des Formularfelds für das Bild
         
-        // Axios-Anfrage senden
-        axios.post('http://localhost:3000/upload', formData)
-            .then(response => {
-                // Erfolgreiche Antwort vom Server
-                console.log('Bild erfolgreich hochgeladen:', response.data);
-            })
-            .catch(error => {
-                // Fehler beim Hochladen des Bildes
-                console.error('Fehler beim Hochladen des Bildes:', error);
-            });
-    }, 'image/png');
-            
-    
-        } else {
+                // Axios-Anfrage senden
+                axios.post('http://localhost:3000/upload', formData)
+                .then(response => {
+                    // Erfolgreiche Antwort vom Server
+                    console.log('Bild erfolgreich hochgeladen:', response.data);
+                })
+                .catch(error => {
+                    // Fehler beim Hochladen des Bildes
+                    console.error('Fehler beim Hochladen des Bildes:', error);
+                });
+            }, 'image/png');
+        } 
+        else {
             this.clearphoto();
         }},
-    
+            
         deletePhoto(index){
-        this.takenPhotos.splice(index, 1);
-    }
+            this.takenPhotos.splice(index, 1);
+        }
     
     }
     }
